@@ -10,15 +10,15 @@ This module is based on code [originally written](https://gist.github.com/sarcis
 
 [WTFPL](http://www.wtfpl.net/txt/copying/) or [CC0](https://creativecommons.org/publicdomain/zero/1.0/), whichever you prefer. A donation and/or attribution are appreciated, but not required.
 
-## Donate
+## Donating
 
-My income consists largely of donations for my projects. If this module is useful to you, consider [making a donation](http://cryto.net/~joepie91/donate.html)!
+The income of Sven Slootweg, the original author of this NPM package, consists largely of donations for his projects. If this module is useful to you, consider [making a donation](http://cryto.net/~joepie91/donate.html)!
 
-You can donate using Bitcoin, PayPal, Flattr, cash-in-mail, SEPA transfers, and pretty much anything else.
+You can donate in bitcoin, or using PayPal, Flattr, cash-in-mail, SEPA transfers, and pretty much anything else.
 
 ## Contributing
 
-Pull requests welcome. Please make sure your modifications are in line with the overall code style, and ensure that you're editing the files in `src/`, not those in `lib/`.
+Pull requests are welcome. Please make sure your modifications are in line with the overall code style.
 
 Build tool of choice is `gulp`; simply run `gulp` while developing, and it will watch for changes.
 
@@ -26,20 +26,20 @@ Be aware that by making a pull request, you agree to release your modifications 
 
 ## Usage
 
-This module will return the result asynchronously - this is necessary to avoid blocking your entire application while generating a number.
+This module will return the result asynchronously. This is necessary to avoid blocking the event loop while generating a number.
 
-An example:
+### Example
 
 ```javascript
 var Promise = require("bluebird");
 var randomNumber = require("random-number-csprng");
 
 Promise.try(function() {
-	return randomNumber(10, 30);
+    return randomNumber(10, 30);
 }).then(function(number) {
-	console.log("Your random number:", number);
-}).catch({code: "RandomGenerationError"}, function(err) {
-	console.log("Something went wrong!");
+    console.log("A random number:", number);
+}).catch({ code: "RandomGenerationError" }, function(err) {
+    console.log("Something went wrong!");
 });
 ```
 
@@ -64,6 +64,7 @@ The error message will provide more information, but this kind of error will gen
 
 ## Changelog
 
-* __1.0.2__ (March 8, 2016): __*Security release!*__ Patched handling of large numbers; input values are now checked for `MIN_SAFE_INTEGER` and `MAX_SAFE_INTEGER`, and the correct bitwise operator is used (`>>>` rather than `>>`).
+* __1.1.0__ (November 22, 2017): Add TypeScript type definitions.
+* __1.0.2__ (March 8, 2016): __*Security release!*__ Patch handling of large numbers; input values are now checked for `MIN_SAFE_INTEGER` and `MAX_SAFE_INTEGER`, and the correct bitwise operator is used (`>>>` rather than `>>`).
 * __1.0.1__ (March 8, 2016): Unimportant file cleanup.
 * __1.0.0__ (March 8, 2016): Initial release.
