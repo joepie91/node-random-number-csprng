@@ -6,19 +6,19 @@ var cache = require('gulp-cached');
 var remember = require('gulp-remember');
 var plumber = require('gulp-plumber');
 
-var source = ["src/**/*.js"]
+var source = ['src/**/*.js']
 
-gulp.task('babel', function() {
+gulp.task('babel', function () {
 	return gulp.src(source)
 		.pipe(plumber())
-		.pipe(cache("babel"))
-		.pipe(babel({presets: ["es2015"]}).on('error', gutil.log)).on('data', gutil.log)
-		.pipe(remember("babel"))
-		.pipe(gulp.dest("lib/"));
+		.pipe(cache('babel'))
+		.pipe(babel({ presets: ['env'] }).on('error', gutil.log)).on('data', gutil.log)
+		.pipe(remember('babel'))
+		.pipe(gulp.dest('lib/'));
 });
 
 gulp.task('watch', function () {
 	gulp.watch(source, ['babel']);
 });
 
-gulp.task('default', ['babel', 'watch']);
+gulp.task('default', ['babel']);
