@@ -12,13 +12,13 @@ gulp.task('babel', function() {
 	return gulp.src(source)
 		.pipe(plumber())
 		.pipe(cache("babel"))
-		.pipe(babel({presets: ["es2015"]}).on('error', gutil.log)).on('data', gutil.log)
+		.pipe(babel({presets: ["@babel/preset-env"]}).on('error', gutil.log)).on('data', gutil.log)
 		.pipe(remember("babel"))
 		.pipe(gulp.dest("lib/"));
 });
 
-gulp.task('watch', function () {
-	gulp.watch(source, ['babel']);
+gulp.task('watch', function() {
+  gulp.watch(source, gulp.series('babel'));
 });
 
-gulp.task('default', ['babel', 'watch']);
+gulp.task('default', gulp.series(['babel', 'watch']));
