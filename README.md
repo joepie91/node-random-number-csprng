@@ -1,10 +1,6 @@
-# random-number-csprng
+# random-number-csprng-2
 
-A CommonJS module for generating cryptographically secure pseudo-random numbers.
-
-Works in Node.js, and should work in the browser as well, using Webpack or Browserify.
-
-This module is based on code [originally written](https://gist.github.com/sarciszewski/88a7ed143204d17c3e42) by [Scott Arciszewski](https://github.com/sarciszewski), released under the WTFPL / CC0 / ZAP.
+This is a fork of module [random-number-csprng](https://www.npmjs.com/package/random-number-csprng) without external dependencies and updated to be compatible with Node v12 and Babel v7.
 
 ## License
 
@@ -12,7 +8,7 @@ This module is based on code [originally written](https://gist.github.com/sarcis
 
 ## Donate
 
-My income consists largely of donations for my projects. If this module is useful to you, consider [making a donation](http://cryto.net/~joepie91/donate.html)!
+Income of original module's author consists largely of donations for their projects. If this module is useful to you, consider [making a donation](http://cryto.net/~joepie91/donate.html) to the author!
 
 You can donate using Bitcoin, PayPal, Flattr, cash-in-mail, SEPA transfers, and pretty much anything else.
 
@@ -31,15 +27,14 @@ This module will return the result asynchronously - this is necessary to avoid b
 An example:
 
 ```javascript
-var Promise = require("bluebird");
-var randomNumber = require("random-number-csprng");
+var randomNumber = require("random-number-csprng-2");
 
-Promise.try(function() {
+Promise.resolve().then(function() {
 	return randomNumber(10, 30);
 }).then(function(number) {
 	console.log("Your random number:", number);
-}).catch({code: "RandomGenerationError"}, function(err) {
-	console.log("Something went wrong!");
+}).catch(function(err) {
+	console.log("Something went wrong: " + err.code);
 });
 ```
 
@@ -62,8 +57,9 @@ Any errors that occur during the random number generation process will be of thi
 
 The error message will provide more information, but this kind of error will generally mean that the arguments you've specified are somehow invalid.
 
-## Changelog
 
-* __1.0.2__ (March 8, 2016): __*Security release!*__ Patched handling of large numbers; input values are now checked for `MIN_SAFE_INTEGER` and `MAX_SAFE_INTEGER`, and the correct bitwise operator is used (`>>>` rather than `>>`).
-* __1.0.1__ (March 8, 2016): Unimportant file cleanup.
-* __1.0.0__ (March 8, 2016): Initial release.
+## Notes
+
+Don't use ranges any bigger than 2^32 - 1 or 4,294,97,295. Details in [Issue #4 of the original module](https://github.com/joepie91/node-random-number-csprng/issues/4).
+
+This fork isn't tested in browser yet. You can help with it.

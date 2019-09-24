@@ -8,13 +8,16 @@ var plumber = require('gulp-plumber');
 
 var source = ["src/**/*.js"]
 
-gulp.task('babel', function() {
-	return gulp.src(source)
-		.pipe(plumber())
-		.pipe(cache("babel"))
-		.pipe(babel({presets: ["@babel/preset-env"]}).on('error', gutil.log)).on('data', gutil.log)
-		.pipe(remember("babel"))
-		.pipe(gulp.dest("lib/"));
+gulp.task('babel', function () {
+  return gulp.src(source)
+    .pipe(plumber())
+    .pipe(cache("babel"))
+    .pipe(babel({
+      presets: ["@babel/preset-env"],
+      plugins: ["@babel/plugin-proposal-class-properties"]
+    }).on('error', gutil.log)).on('data', gutil.log)
+    .pipe(remember("babel"))
+    .pipe(gulp.dest("lib/"));
 });
 
 gulp.task('watch', function() {
