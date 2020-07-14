@@ -1,26 +1,22 @@
 # random-number-csprng
 
+This is a fork of module random-number-csprng-2 without external dependencies and updated to be compatible with Node v12 and Babel v7.
+
 A CommonJS module for generating cryptographically secure pseudo-random numbers.
 
-Works in Node.js, and should work in the browser as well, using Webpack or Browserify.
+Works in Node.js; This fork isn't tested in browser yet. You can help with it.
 
-This module is based on code [originally written](https://gist.github.com/sarciszewski/88a7ed143204d17c3e42) by [Scott Arciszewski](https://github.com/sarciszewski), released under the WTFPL / CC0 / ZAP.
+This module is based on code [originally written](https://gist.github.com/sarciszewski/88a7ed143204d17c3e42) by [Scott Arciszewski](https://github.com/sarciszewski), released under the WTFPL / CC0 / ZAP, [random-number-csprng](https://github.com/joepie91/node-random-number-csprng) by [Sven Slootweg](https://github.com/joepie91), and [random-number-csprng-2](https://github.com/PROger4ever-NodeJS/node-random-number-csprng-2).
 
 ## License
 
-[WTFPL](http://www.wtfpl.net/txt/copying/) or [CC0](https://creativecommons.org/publicdomain/zero/1.0/), whichever you prefer. A donation and/or attribution are appreciated, but not required.
-
-## Donate
-
-My income consists largely of donations for my projects. If this module is useful to you, consider [making a donation](http://cryto.net/~joepie91/donate.html)!
-
-You can donate using Bitcoin, PayPal, Flattr, cash-in-mail, SEPA transfers, and pretty much anything else.
+[WTFPL](http://www.wtfpl.net/txt/copying/) or [CC0](https://creativecommons.org/publicdomain/zero/1.0/), whichever you prefer.
 
 ## Contributing
 
 Pull requests welcome. Please make sure your modifications are in line with the overall code style, and ensure that you're editing the files in `src/`, not those in `lib/`.
 
-Build tool of choice is `gulp`; simply run `gulp` while developing, and it will watch for changes.
+Build tool of choice is `gulp`; simply run `npm run build` while developing, and it will watch for changes.
 
 Be aware that by making a pull request, you agree to release your modifications under the licenses stated above.
 
@@ -28,19 +24,25 @@ Be aware that by making a pull request, you agree to release your modifications 
 
 This module will return the result asynchronously - this is necessary to avoid blocking your entire application while generating a number.
 
-An example:
+Promise example:
 
 ```javascript
-var Promise = require("bluebird");
-var randomNumber = require("random-number-csprng");
+const randomNumberCsrpg = require("@thzero/random-number-csprng");
 
-Promise.try(function() {
-	return randomNumber(10, 30);
+Promise.resolve().then(function() {
+	return randomNumberCsrpg(10, 30);
 }).then(function(number) {
 	console.log("Your random number:", number);
-}).catch({code: "RandomGenerationError"}, function(err) {
-	console.log("Something went wrong!");
+}).catch(function(err) {
+	console.log("Something went wrong: " + err.code);
 });
+```
+
+Await example:
+
+```javascript
+const randomNumberCsrpg = require("@thzero/random-number-csprng");
+const randomNumber = await randomNumberCsrpg(10, 30);
 ```
 
 ## API
@@ -62,8 +64,8 @@ Any errors that occur during the random number generation process will be of thi
 
 The error message will provide more information, but this kind of error will generally mean that the arguments you've specified are somehow invalid.
 
-## Changelog
+## Notes
 
-* __1.0.2__ (March 8, 2016): __*Security release!*__ Patched handling of large numbers; input values are now checked for `MIN_SAFE_INTEGER` and `MAX_SAFE_INTEGER`, and the correct bitwise operator is used (`>>>` rather than `>>`).
-* __1.0.1__ (March 8, 2016): Unimportant file cleanup.
-* __1.0.0__ (March 8, 2016): Initial release.
+Don't use ranges any bigger than 2^32 - 1 or 4,294,97,295. Details in [Issue #4 of the original module](https://github.com/joepie91/node-random-number-csprng/issues/4).
+
+This fork isn't tested in browser yet. You can help with it.

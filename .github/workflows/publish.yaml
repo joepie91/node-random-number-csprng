@@ -1,0 +1,33 @@
+name: Node.js CI
+
+on:
+    push:
+      branches:
+        - master
+    watch:
+        types: [started]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    if: github.actor == github.event.repository.owner.login
+
+    strategy:
+      matrix:
+        #node-version: [8.x, 10.x, 12.x]
+        node-version: [13.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm install
+    - run: npm test
+    - run: npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
